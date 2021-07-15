@@ -1,34 +1,20 @@
-from kivy.app import App
-from kivy.lang import Builder
-from kivy.properties import ObjectProperty
-from kivy.uix.boxlayout import BoxLayout
-from kivymd.theming import ThemeManager
-
-class MyLayout(BoxLayout):
-
-    scr_mngr = ObjectProperty(None)
-
-    def check_data_login(self):
-        username = self.scr_mngr.screen1.username.text
-        password = self.scr_mngr.screen1.password.text
-
-        print(username)
-        print(password)
-
-        if username == "" and password == "":
-            self.change_screen("screen2")
+#:import MDTextField kivymd.textfields.MDTextField 
+#:import MDTextFieldRound kivymd.textfields.MDTextFieldRound
 
 
-    def change_screen(self, screen, *args):
-        self.scr_mngr.current = screen
-        
-        
-    def flip(self):
-        print("Button pressed")
+BoxLayout:
+    size_hint: .8, .8
+    pos_hint: {"center_x": .5, "center_y": .5}
+    spacing: dp(100)
+    orientation: 'vertical'
+    MDTextField:
+        hint_text: "This is hint text"
+        helper_text: "This is helper text"
+        helper_text_mode: "on_focus" # "on_focus"
+    MDTextFieldRound:
 
-# Costruzione del layout dell'app
-KV = """
-#:import Toolbar kivymd.toolbar.Toolbar
+
+    #:import Toolbar kivymd.toolbar.Toolbar
 #:import ThemeManager kivymd.theming.ThemeManager
 #:import MDNavigationDrawer kivymd.navigationdrawer.MDNavigationDrawer
 #:import NavigationLayout kivymd.navigationdrawer.NavigationLayout
@@ -120,68 +106,17 @@ MyLayout:
             Toolbar:
                 id: toolbar
                 title: "Welcome ! "
-                pos_hint: {'top':1}
+                pos_hint: {'center_x': 0.5, 'center_y': 0.97}
                 md_bg_color: app.theme_cls.primary_color
                 background_palette: 'DeepPurple'
                 background_hue: 'A400'
                 left_action_items: [['arrow-left', partial(root.change_screen, 'screen1') ]]
-                right_action_items: [['animation', lambda x: root.flip()]]
+                right_action_items: [['animation', lambda x: MDThemePicker().open()]]
 
-            Image:
-                source: 'logo.png'
-                size: self.texture_size
-                pos_hint: {"center_x": 0.5, "center_y": 0.69 }
-                size_hint: (0.3,0.3)
-            
             MDLabel:
                 font_style: 'Title'
-                text: "Download Speed"
-                theme_text_color: "Custom"
-                text_color: 1.2, 0.6, 0.5, 1
+                theme_text_color: 'Primary'
+                text: "Data :"
                 height: self.texture_size[1] + dp(3)
                 halign: 'center'
-                pos_hint: {'center_x': 0.5, 'center_y': 0.45}
-                
-            MDLabel:
-                font_style: 'Title'
-                text: "-"
-                theme_text_color: "Custom"
-                text_color: 1.2, 0.6, 0.5, 1
-                height: self.texture_size[1] + dp(3)
-                halign: 'center'
-                pos_hint: {'center_x': 0.5, 'center_y': 0.35}
-                
-            MDLabel:
-                font_style: 'Title'
-                text: "Upload Speed"
-                theme_text_color: "Custom"
-                text_color: 1, 0, 0.2, 1
-                height: self.texture_size[1] + dp(3)
-                halign: 'center'
-                pos_hint: {'center_x': 0.5, 'center_y': 0.25}
-                
-            MDLabel:
-                font_style: 'Title'
-                text: "-"
-                theme_text_color: "Custom"
-                text_color: 1, 0, 0.2, 1
-                height: self.texture_size[1] + dp(3)
-                halign: 'center'
-                pos_hint: {'center_x': 0.5, 'center_y': 0.15}
-"""
-
-#Available vanilla font_style are: ‘'Body1', 'Body2', 'Caption', 'Subhead', 'Title', 'Headline', 'Display1', 'Display2', 'Display3', 'Display4', 'Button', 'Icon'.
-
-
-class SpeedtestApp(App):
-    title = "Speedtest App"
-    theme_cls = ThemeManager()
-    theme_cls.primary_palette = 'Teal'
-    theme_cls.accent_palette = 'Blue'
-    # theme_cls.theme_style = 'Dark'
-    
-    def build(self):
-        return Builder.load_string(KV)
-
-
-SpeedtestApp().run()
+                pos_hint: {'center_x': 0.5, 'center_y': 0.85}
